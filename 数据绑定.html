@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8'/>
+    <title>数据绑定</title>
+  <script src="./vue.js" type="text/javascript">
+      Vue.config.productionTip = false
+  </script>
+  </head>
+
+  <body>
+    <!-- 单向绑定 :v-bind 缩写成: 数据只能从data流向页面-->
+    单向绑定<input type="text" :value="v1" id="root"><br><br>
+    <!-- 双向绑定 :v-model data和页面的数据能互相流动-->
+    <!-- v-model 只能应用在表单元素上(输入类元素，用户能产生交互的控件上) -->
+    双向绑定<input type="text" id="root1" v-model:value="v2">
+    <script>
+        new Vue({
+            el:'#root',
+            data() {
+                return {
+                    v1:'value1',
+                }
+            },
+        })
+        new Vue({
+            el:'#root1',
+            data() {
+                return {
+                    v2:'百事可乐'
+                }
+            },
+        })
+    </script>
+  </body>
+</html>
