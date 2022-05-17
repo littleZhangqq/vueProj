@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8'/>
+    <title>mvvm模型</title>
+    <script src='./vue.js' type='text/javascript'>
+    </script>
+  </head>
+  <body>
+    <div id="root">
+        <h1>{{name}}</h1><br>
+        <h1>{{value}}</h1><br>
+        <h1>其他属性{{$options}}</h1>
+    </div>
+<!-- vue实例中的所有属性，在控件中可以直接调用 -->
+<!-- data中的所有属性，最后都出现在了vm上 -->
+    <script>
+        new Vue({
+               el:'#root',
+               data() {
+                 return {
+                    name:'aaa',
+                    value:'bbb'
+                 }
+               },
+               })
+    </script>
+  </body>
+</html>

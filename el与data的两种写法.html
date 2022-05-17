@@ -10,8 +10,11 @@
     <div id="root">
         <h1>{{name}}</h1>
     </div>
+    
     <script>
-        const v = new Vue({
+        // el的两种写法
+        /* const v = new Vue({
+            // 不用el来绑定控件，使用$mount 更灵活 ，可以在其他方法中或其他代码中使用
             // el:'#root',
             data() {
                 return {
@@ -20,9 +23,27 @@
             },
         })
         setTimeout(() => {
-            v.$mount("#root")
-        }, 3000);
-        
+            v.$mount("#root") //这里使用$mount来调用控件关联
+        }, 3000); */
+
+        // data的两种写法
+        //1 //对象式写法
+        /* new Vue({
+            el:'#root',
+            data:{
+                name:'xx'
+            }
+        }) */
+        //2 函数式写法
+        new Vue({
+            el:'#root',
+            data() {
+                console.log(this)//此处的this是Vue对象
+                return {
+                    name:'aaa',
+                }
+            },
+        })
     </script>
   </body>
 </html>
