@@ -12,8 +12,10 @@
     <!-- 单向绑定 :v-bind 缩写成: 数据只能从data流向页面-->
     单向绑定<input type="text" :value="v1" id="root"><br><br>
     <!-- 双向绑定 :v-model data和页面的数据能互相流动-->
-    <!-- v-model 只能应用在表单元素上(输入类元素，用户能产生交互的控件上) -->
-    双向绑定<input type="text" id="root1" v-model:value="v2">
+    <!-- v-model 只能应用在表单元素上(输入类元素input,select等，用户能产生交互的控件上) -->
+    <!-- v-model:value="" 缩写：v-model="" 因为v-model针对的就是控件的value属性 -->
+    <!-- 双向绑定<input type="text" id="root1" v-model:value="v2"><br><br> -->
+    双向绑定<input type="text" id="root1" v-model="v2">
     <script>
         new Vue({
             el:'#root',
