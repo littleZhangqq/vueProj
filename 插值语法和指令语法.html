@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8'/>
+    <title>vue</title>
+    <script type="text/javascript" src="./vue.js"></script>
+
+  </head>
+
+  <body>
+    <div id="root">
+        <h1>指令语法{{school.addr}}</h1>
+        <a :href="url" target="_blank" :x="school.addr">点击11</a>
+    </div>
+
+    <script>
+        Vue.config.productionTip = false
+        const x = new Vue({
+            el:'#root',
+            data() {
+                return {
+                    name:'111',
+                    url:'http://www.baidu.com',
+                    hehe:'aaaa',
+                    school:{
+                        age:'16',
+                        addr:'221'
+                    }
+                }
+            },
+        })
+
+    </script>
+  </body>
+    
+</html>
