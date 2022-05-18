@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8'/>
+    <title>数据代理</title>
+    <script src='./vue.js' type='text/javascript'>
+    </script>
+  </head>
+  <body>
+    <div id="root">
+        <h1>名:{{_data.name}}</h1>
+        <h1>址:{{address}}</h1>
+    </div>
+    <script>
+        //1 回顾理解Object.defineProperty方法和set、get方法
+        let number = 18
+        let person = {
+           name:'zhangsan',
+           sex:'man'
+       }
+        Object.defineProperty(person,'age',{
+           //无法枚举，就是对象的属性遍历查询不到这种方法添加的属性，如果需要可以枚举，需要添加属性enumerable设置为true
+        //    enumerable:true,//控制属性是否可以被遍历
+        //    writable:true, //控制属性是否可以被修改
+        //    configurable:true,//控制属性是否可以被删除
+           get(){
+            return number
+           },
+           set(value){
+             console.log('修改了值，是'+ value)
+             number = value
+           }
+       })
+       console.log(person)
+       //2 数据代理
+       obj = {x:100}
+       obj2 = {y:200}
+       Object.defineProperty(obj2,'x',{
+           get(){
+                return obj.x
+           },
+           set(value){
+                obj.x = value
+           }
+       })
+       console.log(obj)
+       //3. Vue中的数据代理
+       const vm = new Vue({
+              el:'#root',
+              data() {
+                return {
+                    name:'11',
+                    address:'22'
+                }
+              },
+           })
+    </script>
+  </body>
+</html>
