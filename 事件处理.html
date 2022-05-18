@@ -5,21 +5,143 @@
     <title>事件处理</title>
     <script src='./vue.js' type='text/javascript'>
     </script>
+    <style>
+        *{
+            margin-top: 20px;
+        }
+        .maopao{
+            height: 100px;
+            width: 100px;
+            background-color: aqua;
+        }
+        .scv{
+            background-color: orange;
+            height: 100px;
+            overflow: auto;
+        }
+        li{
+            height: 40px;
+        }
+        
+    </style>
   </head>
-  <body>
+  <body> 
     <div id="root">
-        <h1> </h1>
+        <button v-on:click="showinfo">点击</button>
+        <!-- v-on的简写是@ -->
+        <button @click="showinfo">简写v-on</button>
+        <!-- 函数传参 同时保留event 需要传$event -->
+        <button @click="showinfo2(333,$event)">点击2</button>
+        <!-- 事件修饰符 click是事件。prevent是阻止默认行为。-->
+        <!-- 
+            Vue中常用的事件修饰符
+            prevent：阻止默认事件
+            once：事件只触发一次
+            stop：阻止事件冒泡
+            passive:事件的默认行为立即执行
+         -->
+         <!-- 阻止默认事件 -->
+        <a href="http://www.baidu.com" @click.prevent="alertWindow" target="_blank">点击弹出</a><br>
+        <!-- 阻止事件冒泡 -->
+        <div class="maopao" @click="stopMaopao">
+            <!-- 阻止事件冒泡。需要在响应事件的控件添加。表示事件执行到此为止 -->
+            <button @click.stop="stopMaopao">冒泡按钮</button>
+        </div>
+        <div class="maopao" @click="stopMaopao">
+            <!-- 修饰符可以连续写 -->
+            <!-- 阻止事件冒泡。同时阻止默认行为 -->
+            <a href="http://www.baidu.com" @click.stop.prevent="stopMaopao">冒泡按钮</button>
+        </div>
+        <!-- 事件触发一次 once -->
+        <button @click.once="onceHandle">once按钮</button>
+        <!-- capture 使用事件的捕获方式 -->
+        <!-- self 操作当前元素才会触发事件 -->
+        <!-- passive 事件的默认行为立即执行，无需等待事件回调执行完毕 移动端用的比较多-->
+        <ul class="scv" @scroll.passive="didscroll">
+            <!-- 
+                这个结构里，滚动滚轮的时候，先执行didscroll函数，函数执行完毕，触发滚动条的滑动。如果函数执行流程特别长，就会顺延执行。passive就是相当于开启了一个多线程，控件正常显示操作步骤，函数方法也同步执行
+             -->
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+    <!-- 键盘事件 -->
+    <div id="root1">
+        <!-- 
+            Vue常用按键名称
+            1，回车：enter
+            2，空格：space
+            3，删除：delete
+            4，退出：esc
+            5，换行：tab 当使用该键时，必现使用keydown，否则使用keyup时焦点变化，不会触发方法的调用
+            6，上下左右：left right up  down
+            使用按键名称时，如果按键名由多个单词拼成，需要在单词中间加-，首字母小写。如按键名：CapsLock，需要写成@keyUp.caps-lock
+            系统修饰键用法特殊（ctrl，alt,shift,win)：
+            如果配合keyup 需要同时按下任意其他键，然后松开其他键，可以正常触发
+            修饰符可以连写，如 keyup.ctrl.y 
+            如果配合keydown，正常触发
+         -->
+        <input type="text" @keyUp.enter="showInfo">
     </div>
     <script>
         new Vue({
                el:'#root',
                data() {
                  return {
-        
-        
+        // 只有写在data中的数据Vue才会对其做数据代理，method中的方法不会做数据代理
                  }
                },
+               methods: {
+                showinfo(event){
+                    console.log(event.target.innerText)//此处的event是按钮的点击事件
+                    console.log(this)//此处的this是Vue实例对象,如果showinfo方法使用的箭头函数定义，那么this是window
+                 },
+                 showinfo2(value,a){
+                     console.log(value)//value
+                     console.log(a)//event
+                 },
+                 alertWindow(){
+                    alert('33121')
+                 },
+                 stopMaopao(e){
+                    //  不加e  由于div和button分别调用方法，会弹窗2次，使用e调用stop后，只弹一次
+                    // e.stopPropagation();
+                    alert('haha')
+                   },
+                   onceHandle(){
+                       alert('once')
+                   },
+                   didscroll(){
+                       for (let i = 0; i < 100; i++) {
+                           console.log('#')
+                       }
+                       console.log('执行完了')
+                   }
+
+               },
             })
+       new Vue({
+              el:'#root1',
+              data() {
+                return {
+                }
+              },
+              methods:{
+                showInfo(e){
+                    // keycode 是键盘按键的编码 13代表的是回车
+                    // console.log(e.keyCode);
+                    // key 是按键的名字
+                    // console.log(e.key);
+                   /*  if (e.keyCode !== 13) {
+                        return
+                    } */
+                    console.log(e.target.value);
+                }
+              }
+           })
     </script>
   </body>
 </html>
