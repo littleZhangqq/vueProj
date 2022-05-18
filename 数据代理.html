@@ -8,7 +8,7 @@
   </head>
   <body>
     <div id="root">
-        <h1>名:{{_data.name}}</h1>
+        <h1>名:{{name}}</h1>
         <h1>址:{{address}}</h1>
     </div>
     <script>
@@ -45,6 +45,11 @@
        })
        console.log(obj)
        //3. Vue中的数据代理
+       /* 
+        通过vm对象来代理data中数据的操作，
+        可以在vm中直接读取data属性
+        基本原理就是通过object。defineproperty的set、get方法来实现的
+       */
        const vm = new Vue({
               el:'#root',
               data() {
