@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8'/>
+    <title>计算属性</title>
+    <script src='./vue.js' type='text/javascript'>
+    </script>
+  </head>
+  <body>
+    <!-- 
+        1、插值语法实现
+     -->
+    <!-- <div id="root">
+        F：<input type="text" v-model="xing"><br><br>
+        L：<input type="text" v-model="ming"><br><br>
+        Full：<span>{{xing}}-{{ming}}</span>
+    </div>
+    <script>
+        new Vue({
+               el:'#root',
+               data() {
+                 return {
+                    xing:'F',
+                    ming:'L'
+                 }
+               },
+               methods: {
+        
+               },
+           })
+    </script> -->
+
+    <!-- 
+        2.methods方法实现
+     -->
+     <!-- <div id="root">
+        F：<input type="text" v-model="first"><br><br>
+        L：<input type="text" v-model="second"><br><br>
+        Full：<span>{{fullName()}}</span>
+     </div>
+    <script>
+        new Vue({
+               el:'#root',
+               data() {
+                 return {
+                    first:'11',
+                    second:'22'
+                 }
+               },
+               methods: {
+                 fullName(){
+                     return this.first+'-'+this.second
+                 }
+               },
+           })
+    </script> -->
+    <!-- 
+        3.计算属性实现
+        1.要用的属性不存在，通过已有的属性计算得来，需要使用computed方法。
+        2.原理，底层使用Object.defineProperty调用set方法和get方法实现
+        3.依赖的数据发生变化时会被再次调用。
+        优势，与method相比，内部有缓存机制，效率更高，调试方便
+        
+     -->
+     <div id="root">
+        F：<input type="text" v-model="first"><br><br>
+        L：<input type="text" v-model="second"><br><br>
+        Full：<span>{{full}}</span>
+     </div>
+     <script>
+          const vm = new Vue({
+                el:'#root',
+                data() {
+                  return {
+                    first:'11',
+                    second:'22'
+                  }
+                },
+                methods: {
+                    
+                },
+                computed:{
+                    full:{
+                        get(){
+                            return this.first+'-'+this.second
+                        },
+                        set(value){
+                            const array = value.split('-')
+                            this.first = array[0]
+                            this.second = array[1]
+                        }
+                    }
+                }
+            })
+     </script>
+  </body>
+</html>
