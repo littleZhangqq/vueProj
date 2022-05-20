@@ -60,7 +60,7 @@
         2.原理，底层使用Object.defineProperty调用set方法和get方法实现
         3.依赖的数据发生变化时会被再次调用。
         优势，与method相比，内部有缓存机制，效率更高，调试方便
-        
+
      -->
      <div id="root">
         F：<input type="text" v-model="first"><br><br>
@@ -80,7 +80,8 @@
                     
                 },
                 computed:{
-                    full:{
+                  /* 完整写法
+                     full:{
                         get(){
                             return this.first+'-'+this.second
                         },
@@ -89,7 +90,13 @@
                             this.first = array[0]
                             this.second = array[1]
                         }
-                    }
+                    } */
+                    /* 
+                      简写写法（该计算属性只读不改才能使用简写）
+                    */
+                   full(){
+                    return this.first+'-'+this.second
+                   }
                 }
             })
      </script>
