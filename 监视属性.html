@@ -7,6 +7,13 @@
     <script src='./vue.js' type='text/javascript'>
     </script>
 </head>
+<!-- 
+    computed和watch的区别
+    computed能完成的属性计算，watch通过属性监听也能完成，不过需要先声明该属性。
+    watch能完成的computed不一定能做，watch内部可以开启异步线程，computed则不可以
+    所有被Vue管理的函数，要写成普通函数，不带箭头的那种
+    vue内部所有不被Vue管理的函数，写成箭头函数，这样外部的this才能是Vue对象
+ -->
 
 <body>
     <div id="root">
@@ -14,6 +21,8 @@
         <!-- <button @click="changeWeather">切换</button> -->
         <!-- 简单表达式可以在click事件里替代method直接写 复杂的还是在method里面写 -->
         <button @click="isHot = !isHot">切换</button>
+        <h2>现在的a:{{numbers.a}}</h2>
+        <button @click="addAnumber">点击让a+1</button>
     </div>
     <script>
         Vue.config.productionTip = false
@@ -21,12 +30,21 @@
             el: '#root',
             data() {
                 return {
-                    isHot: true
+                    isHot: true,
+                    numbers: {
+                        a: 1,
+                        b: 2
+                    },
+                    a: 100
                 }
             },
             methods: {
                 changeWeather() {
                     this.isHot = !this.isHot
+                },
+                addAnumber() {
+                    this.numbers.a++
+                    this.a++
                 }
             },
             computed: {
@@ -37,12 +55,35 @@
             },
             /* 监视属性的第一种写法，就是写在vm的实例中，可以监视data中的属性，也可以监视计算属性。immediate表示是否初始化执行一次监视，类似观察者方法 */
             watch: {
+                /*
+                    vue默认可以监视到属性内的任一值得变化
+                    Vue提供的watch方法不能观察到多级属性里面的属性的变化，需要使用deep才可以。
+                    vue中的watch默认只观察一级数据结构变化，使用时根据数据结构的层级决定是否添加deep属性的true来实际观察值变化 
+                 */
                 isHot: {
                     immediate: true,
                     handler(newValue, oldValue) {
                         console.log('监视值发生了变化' + newValue, oldValue);
                     }
-                }
+                },
+                //观察data中的对象里面的单个属性，需要.语法并且使用‘’来调用,监视多级结构中某个属性的变化
+                /* 'numbers.a': {
+                    immediate: true,
+                    handler() {
+                        console.log('a发生了变化');
+                    }
+                } */
+                //观察属性里面的多级结构任一内容发生变化，可以给该属性添加deep属性来观察
+                /* numbers: {
+                    deep: true,
+                    handler() {
+                        console.log('numbers里面的任意值发生了变化');
+                    }
+                } */
+                /*  //简写watch,不需要deep，immediate的时候用简写，跟computed不设置set方法时可以简写的逻辑一样。
+                 a(newValue, oldValue) {
+                     console.log('a的值发生了变化111');
+                 } */
             }
         })
         /* 第二种监视属性的方式 
@@ -52,6 +93,12 @@
                 console.log('监视值发生了变化' + newValue, oldValue);
             }
         }) */
+        /* 
+            监视属性使用$简写
+        */
+        vm.$watch('a', function (newValue, oldValue) {
+            console.log('a的值发生了变化111');
+        })
     </script>
 </body>
 
