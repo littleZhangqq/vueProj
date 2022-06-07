@@ -57,9 +57,37 @@
     <!-- 
         第三种方式绑定样式，对象写法，格式不确定，名字不确定，通过给对象赋布尔值来改变
      -->
-    <div id="root" class="basic" :class="obj">
+    <!-- 
+         绑定style 也可以通过绑定对象的方式，将css的样式去掉‘-’改为驼峰写法的键值对给控件的style属性赋值
+      -->
+    <!-- 
+          总结：
+          1.class样式：
+          写法
+          ：class=‘xxx’ xxx可以是对像，字符串，数组。
+          字符串写法适用于：类名不确定，需要动态获取
+          对象写法适用于：要绑定多个样式，个数不确定
+          数组写法适用于：要绑定多个样式，个数确定
+          2.style样式：
+          写法
+          ：style=‘xxx’，xxx是对象，数组
+            在Vue中声明对象xxx:{
+                fontSize:'40px',
+                color:'red'
+            }
+            或使用数组
+            :style='[a,b]'
+            a：{
+                fontSize:'40px',
+                color:'red'
+            },
+            b:{
+                backgroundColor:'blue'
+            }
+       -->
+    <div id="root" class="basic" :class="obj" :style="fstyle">
 
-    </div>
+        呵呵</div>
     <script>
         new Vue({
             el: '#root',
@@ -72,6 +100,11 @@
                         zone1: false,
                         zone2: false,
                         zone3: false
+                    },
+                    fstyle: {
+                        fontSize: '40px',
+                        color: 'red',
+                        backgroundColor: 'orange'
                     }
                 }
             },
