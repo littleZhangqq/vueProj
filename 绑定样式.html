@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8' />
+    <title>绑定样式</title>
+    <script src='./vue.js' type='text/javascript'>
+    </script>
+    <style>
+        .basic {
+            width: 200px;
+            height: 100px;
+            border: 1px solid rgb(181, 147, 189);
+        }
+
+        .beauty {
+            background-color: chocolate;
+        }
+
+        .ugly {
+            background-color: darkgreen;
+        }
+
+        .zone1 {
+            background-color: cornflowerblue;
+        }
+
+        .zone2 {
+            border-radius: 10px;
+            border-width: 4px;
+            border-color: brown;
+            border-style: solid;
+        }
+
+        .zone3 {
+            margin-top: 100px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+        第一种绑定样式:字符串写法，通过给：class绑定属性，和方法，通过事件来绑定样式,适用于：样式的类名不确定，需要动态指定
+     -->
+    <!-- <div id="root" class="basic" :class="style" @click="changeBgColor">
+
+    </div>
+    <br><br> -->
+    <!-- 
+        第二种绑定样式，数组写法，样式不确定，个数也不确定
+     -->
+    <!-- <div id="root" class="basic" :class="arr" @click="addStyle">
+
+    </div>
+    <br><br> -->
+    <!-- 
+        第三种方式绑定样式，对象写法，格式不确定，名字不确定，通过给对象赋布尔值来改变
+     -->
+    <div id="root" class="basic" :class="obj">
+
+    </div>
+    <script>
+        new Vue({
+            el: '#root',
+            data() {
+                return {
+                    style: 'beauty',
+                    a: '',
+                    arr: ['zone1', 'zone2', 'zone3'],
+                    obj: {
+                        zone1: false,
+                        zone2: false,
+                        zone3: false
+                    }
+                }
+            },
+            methods: {
+                changeBgColor() {
+                    if (this.style == "beauty") {
+                        this.style = 'ugly'
+                    } else {
+                        this.style = 'beauty'
+                    }
+                },
+                addStyle() {
+                    const arr = ['zone1', 'zone2', 'zone3']
+                    /* 
+                        math.random()指0-1之间取随机数。*3表示范围。Math.floor是向下取整
+                    */
+                    const index = Math.floor(Math.random() * 3)
+                    this.a = arr[index]
+                }
+            },
+            computed: {
+
+            },
+            watch: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>
