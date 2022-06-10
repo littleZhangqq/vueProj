@@ -9,13 +9,52 @@
 </head>
 
 <body>
-
+  <div id="root">
+    <!-- 遍历数组 -->
+    <li v-for="(a,index) in persons" :key="index">
+      {{a.name}}--{{a.age}}--{{a.sex}}-{{index}}
+    </li>
+    <!-- 遍历字符串 -->
+    <li v-for="(str,index) in string" :key="index">
+      {{str}}--{{index}}
+    </li>
+    <!-- 遍历对象 -->
+    <li v-for="(p,key,index) in car" ::key="index">
+      {{p}}--{{key}}-{{index}}
+    </li>
+    <!-- 遍历指定次数 -->
+    <li v-for="(p,index) in 6" ::key="index">
+      {{p}}-{{index}}
+    </li>
+  </div>
   <script>
     new Vue({
-      el: '#',
+      el: '#root',
       data() {
         return {
-
+          car:{
+            name:'奥迪',
+            color:'blue',
+            price:'70个w'
+          },
+          string:'hello',
+          persons:[
+            {
+              name:'张三',
+              age:16,
+              sex:'男'
+            },
+            {
+              name:'李四',
+              age:17,
+              sex:'男'
+            },
+            {
+              name:'六六',
+              age:18,
+              sex:'女'
+            }
+          ]
         }
       },
       methods: {
