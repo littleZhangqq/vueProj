@@ -10,6 +10,7 @@
 
 <body>
   <div id="root">
+    <!-- 遍历的详细原理，看images图片内关于遍历和key的介绍图片 -->
     <!-- 遍历数组 -->
     <li v-for="(a,index) in persons" :key="index">
       {{a.name}}--{{a.age}}--{{a.sex}}-{{index}}
@@ -26,6 +27,7 @@
     <li v-for="(p,index) in 6" ::key="index">
       {{p}}-{{index}}
     </li>
+    
   </div>
   <script>
     new Vue({

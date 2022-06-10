@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='UTF-8' />
+  <title>列表过滤(模糊搜索)</title>
+  <script src='./vue.js' type='text/javascript'>
+  </script>
+</head>
+
+<body>
+  <div id="root">
+    <!-- 过滤数组，使用watch -->
+    <input type="text" v-model="keyWord">
+    <li v-for="(a,index) in newPersons" :key="index">
+      {{a.name}}--{{a.age}}--{{a.sex}}-{{index}}
+    </li>
+    <br>
+    <br>
+    <!-- 过滤数组，使用computed -->
+    <input type="text" v-model="keyWord1">
+    <li v-for="(a,index) in newPersons1">
+      {{a.name}}--{{a.age}}--{{a.sex}}-{{index}}
+    </li>
+    <br>
+    <br>
+  </div>
+  <script>
+    new Vue({
+      el: '#root',
+      data() {
+        return {
+          keyWord:'',
+          keyWord1:'',
+          persons:[
+            {
+              name:'马冬梅',
+              age:26,
+              sex:'男'
+            },
+            {
+              name:'周冬雨',
+              age:37,
+              sex:'男'
+            },
+            {
+              name:'周杰伦',
+              age:18,
+              sex:'女'
+            },
+            {
+              name:'温兆伦',
+              age:21,
+              sex:'女'
+            }
+          ],
+          newPersons:[]
+        }
+      },
+      computed:{
+        newPersons1(){
+          return this.persons.filter((p)=>{
+            return p.name.indexOf(this.keyWord1) !== -1
+          })
+          
+        }
+      },
+      /* 用watch实现 newPersons是空数组，刚加载时是空的页面不会显示列表选项，需要设置个空值调用一次filter方法，所以加immediate为true 即可 */ 
+      watch:{
+        keyWord:{
+          immediate:true,
+          handler(newValue){
+            this.newPersons = this.persons.filter((p)=>{
+              return p.name.indexOf(newValue) !== -1
+            })
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

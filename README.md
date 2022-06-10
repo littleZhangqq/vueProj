@@ -1,4 +1,6 @@
 # vueProj
+Vue学习笔记
+
 事件触发指令：
 @click 点击事件
 @keyUp 键盘按键抬起

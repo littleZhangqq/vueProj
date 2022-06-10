@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='UTF-8' />
+  <title>列表过滤(模糊搜索)</title>
+  <script src='./vue.js' type='text/javascript'>
+  </script>
+</head>
+
+<body>
+  <div id="root">
+    <!-- 过滤数组，使用watch -->
+    <input type="text" v-model="keyWord">
+    <button @click="sort=0">原序</button>
+    <button @click="sort=1">升序</button>
+    <button @click="sort=2">降序</button>
+    <li v-for="(a,index) in newPersons" :key="index">
+      {{a.name}}--{{a.age}}--{{a.sex}}-{{index}}
+    </li>
+  </div>
+  <script>
+    new Vue({
+      el: '#root',
+      data() {
+        return {
+          keyWord: '',
+          sort: 0,
+          persons: [{
+            name: '马冬梅',
+            age: 26,
+            sex: '男'
+          },
+          {
+            name: '周冬雨',
+            age: 37,
+            sex: '男'
+          },
+          {
+            name: '周杰伦',
+            age: 18,
+            sex: '女'
+          },
+          {
+            name: '温兆伦',
+            age: 21,
+            sex: '女'
+          }
+          ],
+        }
+      },
+      computed: {
+        /* 
+        计算属性很强大
+          计算属性，当Vue对象的button的事件改变了sort的值时，由于计算属性的newPersons用到了这个值，所以对应的newPersons会重新计算一遍。导致arr重新生成，结论，当Vue对象某个值改变时，所有的计算属性任何一个用到了这个值都会重新计算一遍。
+        */
+        newPersons() {
+          if (this.sort !== 0) {
+            /* 
+            这里要说明一点，const arr = this.persons这行如果这么写，那么当arr变化的时候，person也会变化，导致点击原序的时候结果还是上次点击的一样。因为arr操作已经把persons的值改变了。原因是arr只是一个指针，指向了persons的地址。如果不想改变persons的值，需要对persons随便进行一个返回新数组的操作，比如调用一次filter方法。这样arr=新数组。就不会对persons进行改变了。
+            */
+            const arr = this.persons.filter((p)=>{
+              return p.name.indexOf(this.keyWord) !== -1
+            })
+            arr.sort((p1, p2) => {
+              if (this.sort == 1) {
+                return p1.age - p2.age
+              } else if (this.sort == 2) {
+                return p2.age - p1.age
+              }
+            })
+            return arr
+          }else{
+            return this.persons
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
