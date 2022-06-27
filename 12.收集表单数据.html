@@ -1,25 +1,92 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='UTF-8'/>
-    <title>收集表单数据</title>
-    <script src='./vue.js' type='text/javascript'>
-    </script>
-  </head>
-  <body>
 
-    <script>
-        new Vue({
-               el:'#',
-               data() {
-                 return {
-        
-                 }
-               },
-               methods: {
-        
-               },
-           })
-    </script>
-  </body>
+<head>
+  <meta charset='UTF-8' />
+  <title>收集表单数据</title>
+  <script src='./vue.js' type='text/javascript'>
+  </script>
+</head>
+
+<body>
+  <div id="root">
+    <form action="">
+      <label for="nameText">姓名：</label><!-- 点击label也可以将焦点放大input上 -->
+      <!-- v-model的trim属性，去掉输入中的空格 -->
+      <input type="text" id="nameText" v-model.trim="userInfo.account">
+      <br>
+      <br>
+      <label for="passText">密码：</label><!-- 点击label也可以将焦点放大input上 -->
+      <input type="password" id="passText" v-model="userInfo.password">
+      <br>
+      <br>
+      <label for="age">年龄</label>
+      <!-- v-model.number 将收集到的数据做类型转换，否则全都默认为字符串处理 -->
+      <input type="number" id="age" v-model.number="userInfo.age">
+      <br>
+      <br>
+      <!-- 
+          input单选时，如果有多个input，应该定义name属性  表示多个input是一组的，完成单选控制
+         -->
+      男<input type="radio" name="sexset" v-model="userInfo.sex" value="male">
+      女<input type="radio" name="sexset" v-model="userInfo.sex" value="female">
+      <br><br>
+      爱好：
+      <!-- checkbox多选  需要对应Vue中的数组。 hobby需要声明为数组-->
+      学习<input type="checkbox" v-model="userInfo.hobby" value="learn">
+      打游戏<input type="checkbox" v-model="userInfo.hobby" value="game">
+      吃饭<input type="checkbox" v-model="userInfo.hobby" value="eat">
+      <br><br>
+      所属校区
+      <select v-model="userInfo.city">
+        <option value="">请选择校区</option>
+        <option value="beijing">北京</option>
+        <option value="shanghai">上海</option>
+        <option value="jinan">济南</option>
+        <option value="nanchang">南昌</option>
+        <option value="tianjin">天津</option>
+      </select>
+      <br><br>
+      简介：
+      <!-- v-model的lazy关键字，控件失去焦点后才收集数据 v-model.lazy-->
+      <textarea v-model="userInfo.other"></textarea>
+      <br><br>
+      <!-- 这个CheckBox 没有指定value，因为只需要知道它是否选择即可。上面的多选CheckBox需要放置value值是因为多选功能，必须要指定value并且使用数组接收值 -->
+      <input type="checkbox" v-model="userInfo.agree">阅读并接受<a href="http://zhangqq166.cn">《用户协议》</a>
+      <br><br>
+      <!-- 表单中点击按钮会刷新页面，是默认事件，所以需要添加prevent阻止默认事件的执行 -->
+      <button @click.prevent="submit">提交</button>
+
+    </form>
+    <!-- button事件放到form外点击则不需要写prevent来阻止默认事件 -->
+    <!-- <button @click="submit">提交</button> -->
+
+  </div>
+  <script>
+    const vm = new Vue({
+      el: '#root',
+      data() {
+        return {
+          userInfo: {
+            account: '',
+            password: '',
+            age:'',
+            sex: 'female',
+            hobby: [],
+            city: 'beijing',
+            other: '',
+            agree: ''
+          }
+        }
+      },
+      methods: {
+        submit() {
+          console.log(JSON.stringify(this.userInfo));
+        }
+      },
+
+    })
+  </script>
+</body>
+
 </html>
