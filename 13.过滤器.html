@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8'/>
+    <title>过滤器</title>
+    <script src='./vue.js' type='text/javascript'>
+    </script>
+    <script type="text/javascript" src="./dayjs.min.js"></script>
+  </head>
+  <body>
+    <div id="root">
+        <h2>现在是(计算属性实现)<br>{{fmtTime}}</h2>
+        <h2>当前时间(方法实现)<br>{{getTime()}}</h2>
+        <h2>当前时间(过滤器实现) {{time | formater}}</h2>
+        <!-- 使用过滤器 传多个参数，time是第一个参数，后面的参数可选， -->
+        <h2>当前时间(过滤器实现) {{time | formater('YYYY-MM-DD')}}</h2>
+        <!-- 多个过滤器可以串联使用 相当于masonry的点语法 -->
+        <h2>当前时间(过滤器实现) {{time | formater | mySlice}}</h2>
+    </div>
+    ----------
+    <div id="root1">
+        <h2>当前时间(全局过滤器)：{{msg | slice1}}</h2>
+    </div>
+
+    <script>
+        Vue.config.productionTip = false
+        /* 将该过滤器 设置成全局，多个Vue实例都可以使用 */
+        Vue.filter('slice1',function(value){
+            return value.slice(0,4)
+        })
+        new Vue({
+               el:'#root',
+               data() {
+                 return {
+                    time:1656318024156
+                 }
+               },
+               methods: {
+                getTime(){
+                    return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+                }
+               },
+               computed:{
+                   fmtTime(){
+                       return dayjs(this.time).format('YYYY-MM-DD HH:mm:ss')
+                   }
+               },
+               filters:{
+                   /* 过滤器方法 */
+                   /* 该方法参数可以设置默认值。es6中新加特性 */
+                   formater(val,str='YYYY:MM:DD HH:mm:ss'){
+                     return dayjs(val).format(str)
+                   },
+                   mySlice(value){
+                     return value.slice(0,4)
+                   }
+               }
+           })
+
+           new Vue({
+                  el:'#root1',
+                  data() {
+                    return {
+                        msg:'21113dfsdsd'
+                    }
+                  },
+                  methods: {
+           
+                  },
+              })
+    </script>
+  </body>
+</html>
