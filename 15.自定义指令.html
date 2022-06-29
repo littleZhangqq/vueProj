@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8' />
+    <title>自定义指令</title>
+    <script src='./vue.js' type='text/javascript'>
+    </script>
+</head>
+
+<body>
+    <!-- 
+        定义指令时不用加v-，使用时需要用v-xxx
+          定义语法：
+          1，局部指令：
+          directives：{
+              xxx指令名(el,obj){
+
+              }
+              或
+              xxx指令名:{
+                bind(el,obj){
+
+                },
+                inserted(el,obj){
+
+                },
+                update(el,obj){
+
+                }
+              }
+          }
+          2.全局指令：
+          Vue.directive('xxx',function(el,obj){
+
+          })
+          或
+          Vue.directive('xxx',{
+              bind(el,obj){
+
+                },
+                inserted(el,obj){
+
+                },
+                update(el,obj){
+
+                }
+          })
+       -->
+    <div id="root">
+        <!-- 
+            自定义一个v-big函数，将n值放大10倍
+            big函数何时调用？1，指令与元素成功绑定时。2，指令所在的模板被重新解析(任意值变化触发刷新页面都会调用该方法)
+
+            v-fbind:实现类似v-bind的功能，并且默认自动获取input的焦点
+         -->
+        <h2>当前值为<span v-text="n"></span></h2>
+        <h2>放大值为<span v-big="n"></span></h2>
+        <button @click="n++">点击++</button>
+
+        <hr><!-- hr是分割线 -->
+        <input type="text" v-fbind="n">
+
+    </div>
+    <script>
+        // Vue.directive(
+            //自定义指令的全局写法
+            // 'fbind',function(el,obj){
+            //     el.value = obj.value
+            //     el.focus()
+            // })
+            new Vue({
+                el: '#root',
+                data() {
+                    return {
+                        n: 1
+                    }
+                },
+                methods: {
+
+                },
+                directives: {
+                    //自定义指令相关方法内的this 都是window。🔥
+                    big(el, obj) {
+                        /* 
+                         el是参数element的缩写，指的是该节点。obj是指令对象
+                        */
+                        el.innerText = obj.value * 10
+                        console.log(this);
+                    },
+                    /* 
+                     自定义指令的函数式写法何时调用：1，指令与元素绑定时，2，指令所在模板被重新解析
+                    */
+                    //fbind的函数写法🔥🔥🔥
+                    fbind(el, obj) {
+                        /* 
+                         这里调用el。focus（）会出现刷新页面后  input没有获取焦点，点击按钮才会获取焦点的问题
+                         因为指令(fbind)与元素input绑定的时候控件没有加载，所以焦点无法生效。需要换另一种写法，对象写法
+                        */
+                        el.value = obj.value
+                        el.focus()
+                    },
+                    //fbind的对象写法，类似代理的处理🔥🔥🔥
+                    fbind: {
+                        bind(el, obj) {
+                            //指令与元素成功绑定时调用
+                            console.log('bind');
+                            console.log(this);
+                        },
+                        inserted(el, obj) {
+                            //指令所在元素被插入页面时调用
+                            console.log('insert');
+                            el.focus()
+                            console.log(this);
+
+                        },
+                        update(el, obj) {
+                            //指令所在模板被重新解析时调用
+                            console.log('update');
+                            el.value = obj.value
+                            el.focus()
+                            console.log(this);
+                        }
+                    }
+                }
+            })
+    </script>
+</body>
+
+</html>
