@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8' />
+    <title>生命周期</title>
+    <script src='./vue.js' type='text/javascript'>
+    </script>
+</head>
+
+<body>
+    <div id="root">
+        <h3 :style="{opacity}">透明度逐渐变化</h3>
+        <button @click="bye">点击销毁vm</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#root',
+            data() {
+                return {
+                    opacity: 1
+                }
+            },
+            methods: {
+                bye(){
+                    //销毁要加  🔥 “$” 🔥
+                    this.$destroy()
+                }
+            },
+            
+            beforeCreate() {
+               console.log(this); 
+               
+            },
+            created() {
+              console.log(this);
+            },
+            beforeMount() {
+                console.log(this);
+            },
+            //Vue完成模板的解析并把真实dom放到页面后，调用mounted，挂载完毕，类似viewdidload
+            mounted() {
+                setInterval(() => {
+                    this.opacity -= 0.01
+                    if (this.opacity <= 0) {
+                        this.opacity = 1
+                    }
+                }, 20);
+            },
+            //数据更新了 页面还没更新
+            beforeUpdate() {
+            //    console.log(this);
+            },
+            //数据更新了，页面也更新了
+            updated() {
+                // console.log(this);
+            },
+            //willdealloc
+            beforeDestroy() {
+                console.log('将要销毁');
+            },
+            //dealloc
+            destroyed() {
+                console.log('销毁');
+            },
+        })
+           //外部定时器实现透明度变化
+        /* setInterval(() => {
+            vm.opacity -= 0.1
+            if(vm.opacity <= 0){
+             vm.opacity = 1
+            }
+        }, 200); */
+    </script>
+</body>
+
+</html>
