@@ -23,3 +23,5 @@ Vue常用按键名称:
  系统修饰键用法特殊（ctrl，alt,shift,win)：
 如果配合keyup 需要同时按下任意其他键，然后松开其他键，可以正常触发
 修饰符可以连写，如 keyup.ctrl.y 指定必须同时按ctrl+y后松开y才能触发事件
+
+代码块中使用debugger  相当于断点。

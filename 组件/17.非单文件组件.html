@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>组件</title>
+    <script src="../vue.js" type="text/javascript"></script>
+  </head>
+
+  <body>
+    <div id="root">
+      <!-- 页面结构都放到组件中了 -->
+      <!-- <h2>{{scoolName}}</h2>
+    <h2>{{addr}}</h2>
+    <hr>
+    <h2>{{studentName}}</h2>
+    <h2>{{age}}</h2> -->
+    </div>
+    <script>
+      //第一步 创建组件
+      const school = Vue.extend({
+        // el: '#root', 组件中不要使用应用对象
+        template: `
+        
+        <div>
+          
+                <h2>{{scoolName}}</h2>
+                     <h2>{{addr}}</h2>
+          </div>
+      `,
+        data() {
+          return {
+            scoolName: "",
+            addr: "",
+          };
+        },
+      });
+      const student = Vue.extend({
+        template: `
+          <div>
+            <h2>{{studentName}}</h2>
+            <h2>{{age}}</h2>
+          </div>
+      `,
+        data() {
+          return {
+            studentName: "",
+            age: 12,
+          };
+        },
+      });
+      new Vue({
+        el: "#root",
+        data() {
+          return {};
+        },
+        //第二部  注册组件
+        components: {
+          xuexiao: school,
+          xuesheng: student,
+        },
+      });
+    </script>
+  </body>
+</html>
